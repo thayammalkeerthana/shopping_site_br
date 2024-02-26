@@ -1,0 +1,37 @@
+CREATE TABLE users (
+    userId VARCHAR(50) NOT NULL,
+    userName VARCHAR(50) NOT NULL,
+    password VARCHAR(10) NOT NULL,
+    firstName VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    phoneNumber VARCHAR(10) NOT NULL,
+    imageUrl VARCHAR(500) NOT NULL
+);
+
+userid,
+        username,
+         password,
+         firstname,
+         email,
+         username
+         gender,
+         phoneNumber,
+         imageurl) VALUES($1,$2,$3,$4,$5) RETURNING "userid"`,
+create a table
+
+INSERT INTO product (productId,productName, price)
+    VALUES 
+    ('1', 'Cute Polka Dot Dress', '19.99'),
+    ('2', 'Charming Yellow Sun Dress', '24.99'),
+    ('3', 'Stylish Denim Overall Dress', '27.99'),
+    ('4', 'Elegant Lace Princess Gown', '39.99'),
+    ('5', 'Adorable Floral Summer Dress', '29.99'),
+    ('6', 'Trendy Striped Ruffle Dress', '34.99'),
+    ('7', 'Chic Polka Dot Sundress', '27.99'),
+    ('8', 'Cute Bunny Print Dress', '22.99'),
+    ('9', 'Stylish Denim Overall Dress', '39.99'),
+    ('10', 'Beautiful Pink Frock', '25.99'),
+    ('11', 'Elegant White Lace Dress', '29.99'),
+    ('12', 'Adorable Floral Print Dress', '22.99');
+
+    insert multiple values in db
