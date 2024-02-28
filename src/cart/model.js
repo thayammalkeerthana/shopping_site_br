@@ -1,15 +1,16 @@
  const addCart = async (req,client) =>{
-    const {cartId,cartName,price,quantity} = req.body
-    console.log("req.bod",req.body)
+    const {cartId,cartName,price,carturl,quantity,userid} = req.body
     try{
          const response = await client.query(`INSERT INTO cart 
         (cartid, 
         cartname, 
         price,
-        quantity) VALUES ($1,$2,$3,$4)
+        carturl,
+        quantity,
+        userid) VALUES ($1,$2,$3,$4,$5,$6)
         ON CONFLICT (cartid) 
         DO UPDATE SET quantity = cart.quantity + EXCLUDED.quantity;`,
-        [cartId,cartName,price,quantity])
+        [cartId,cartName,price,carturl,quantity,userid])
          if(response.rowCount>0){
              return {error: false, data: response.rows , message: "cart created successfully"};
          } else {
@@ -22,16 +23,18 @@
  }
 
  const decCart = async (req,client) =>{
-    const {cartId,cartName,price,quantity} = req.body
+    const {cartId,cartName,price,carturl,quantity,userid} = req.body
     try{
          const response = await client.query(`INSERT INTO cart 
         (cartid, 
         cartname, 
         price,
-        quantity) VALUES ($1,$2,$3,$4)
+        carturl,
+        quantity,
+        userid) VALUES ($1,$2,$3,$4,$5,$6)
         ON CONFLICT (cartid) 
         DO UPDATE SET quantity = cart.quantity - EXCLUDED.quantity;`,
-        [cartId,cartName,price,quantity])
+        [cartId,cartName,price,carturl,quantity,userid])
          if(response.rowCount>0){
              return {error: false, data: response.rows , message: "cart item removed successfully"};
          } else {
@@ -45,16 +48,13 @@
 
  const getCartData=async(req,client)=>{
     try{
-        console.log("calling");
         const response = await client.query(`SELECT * FROM "cart"`)
-        console.log("response",response);
         if(response){
             return {error: false, data: response.rows , message: "cart read successfully"};
         } else {
            return {error: true, message: "cart not read successfully"};
         }
     }  catch(err){
-        console.log("err",err);
         return {error: true, message: err.toString()};
     }
  }

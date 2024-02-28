@@ -1,23 +1,59 @@
 CREATE TABLE users (
-    userId VARCHAR(50) NOT NULL,
-    userName VARCHAR(50) NOT NULL,
-    password VARCHAR(10) NOT NULL,
-    firstName VARCHAR(50) NOT NULL,
-    email VARCHAR(50) NOT NULL,
-    phoneNumber VARCHAR(10) NOT NULL,
-    imageUrl VARCHAR(500) NOT NULL
+    userId VARCHAR(50) PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    firstname VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    gender VARCHAR(10),
+    phoneNumber VARCHAR(10),
+    imageurl VARCHAR(255),
+    type VARCHAR(10) NOT NULL,
+    UNIQUE (email, type) 
+)
+
+CREATE TABLE cart (
+    cartid VARCHAR(50) NOT NULL,
+    cartname VARCHAR(50) NOT NULL,
+    price VARCHAR(10) NOT NULL,
+    imageUrl VARCHAR(500) NOT NULL,
+    quantity VARCHAR(50) NOT NULL
+)
+
+CREATE TABLE IF NOT EXISTS cart (
+    cartid SERIAL PRIMARY KEY,
+    cartname VARCHAR(255) NOT NULL,
+    price NUMERIC NOT NULL,
+    carturl VARCHAR(500) NOT NULL,
+    quantity INTEGER NOT NULL
 );
 
-userid,
-        username,
-         password,
-         firstname,
-         email,
-         username
-         gender,
-         phoneNumber,
-         imageurl) VALUES($1,$2,$3,$4,$5) RETURNING "userid"`,
-create a table
+ALTER TABLE cart ADD CONSTRAINT unique_cartid UNIQUE (cartid);
+
+INSERT INTO cart (cartid, cartname, price,carturl, quantity)
+VALUES (1, 'Product A', 19.99,'https://source.unsplash.com/1920x1080/?shopping', 1)
+ON CONFLICT (cartid) 
+DO UPDATE SET quantity = cart.quantity + EXCLUDED.quantity;
+
+CREATE TABLE Category (
+    categoryid SERIAL PRIMARY KEY,
+    categoryname VARCHAR(255) NOT NULL,
+    description TEXT
+);
+
+CREATE TABLE Product (
+    productId SERIAL PRIMARY KEY,
+    productName VARCHAR(255) NOT NULL,
+    price VARCHAR(255) NOT NULL,
+    imageUrl VARCHAR(255),
+    categoryid INT REFERENCES Category(categoryid)
+);
+
+INSERT INTO Category (categoryid,categoryname,description)
+    VALUES 
+    ('111', 'lehenga', 'Traditional Indian attire often worn during weddings and festivals'),
+    ('222', 'western', 'Modern clothing style originating from Western cultures'),
+    ('333', 'gown', 'Formal dress typically worn by women for special occasions'),
+    ('444', 'ethnic', 'Cultural clothing representing a specific ethnic group or tradition');
 
 INSERT INTO product (productId,productName, price)
     VALUES 
@@ -34,4 +70,59 @@ INSERT INTO product (productId,productName, price)
     ('11', 'Elegant White Lace Dress', '29.99'),
     ('12', 'Adorable Floral Print Dress', '22.99');
 
-    insert multiple values in db
+insert multiple values in dB
+
+INSERT INTO product (productId,productName, price,imageUrl,categoryid)
+VALUES
+('1','Peach Double-Layered Lehenga','$39.00','https://static3.azafashions.com/tr:w-575.0,dpr-2/uploads/product_gallery/pc-gwn-047-0052028001651162584.jpg','111'),
+('2','Pearl Flared Lehenga','$35.00','https://static3.azafashions.com/tr:w-575.0,dpr-2/uploads/product_gallery/1668561-0538069001663172273.jpg','111'),
+('3','RajPut Lehenga','$42.00','https://static3.azafashions.com/tr:w-575.0,dpr-2/uploads/product_gallery/1689002177292_1.jpg','111'),
+('4','Elegant Pink Lehenga','$25.00','https://static3.azafashions.com/tr:w-575.0,dpr-2/uploads/product_gallery/1689002146808_1.jpg','111'),
+('5','Sharara Lehenga','$27.00','https://static3.azafashions.com/tr:w-575.0,dpr-2/uploads/product_gallery/1646723-0212643001658921437.jpg','111'),
+('6','Pretty Yellow Lehenga','$17.00','https://static3.azafashions.com/tr:w-575.0,dpr-2/uploads/product_gallery/1693235151797_1.jpg','111'),
+('7','Fluffy Blue Lehenga','$20.00','https://static3.azafashions.com/tr:w-575.0,dpr-2/uploads/product_gallery/1-0818861001672674540.JPG','111'),
+('8','Light Coral Lehenga','$35.00','https://static3.azafashions.com/tr:w-575.0,dpr-2/uploads/product_gallery/1640292-0749625001655902626.jpg','111'),
+('9','Sharara Lehenga','$23.00','https://static3.azafashions.com/tr:w-575.0,dpr-2/uploads/product_gallery/1646691-0132714001657978793.jpg','111'),
+('10','Pink Flared Lehenga','$15.00','https://static3.azafashions.com/tr:w-575.0,dpr-2/uploads/product_gallery/1633965-0154230001654251310.jpg','111'),
+('11','PeriWinkle Flared Lehenga','$39.00','https://static3.azafashions.com/tr:w-575.0,dpr-2/uploads/product_gallery/dsc_0979-0168633001621417162.jpg','111'),
+('12','Honey Flared Lehenga','$34.00','https://static3.azafashions.com/tr:w-575.0,dpr-2/uploads/product_gallery/fk2494m_11oct2022-0093077001665509261.jpg','111'),
+('13','Pastel Yellow Lehenga','$21.00','https://static3.azafashions.com/tr:w-575.0,dpr-2/uploads/product_gallery/fk0972-0253145001596523995.jpg','111'),
+('14','Pink Purple Lehenga','$34.00','https://static3.azafashions.com/tr:w-575.0,dpr-2/uploads/product_gallery/fayon_kids_fk2250-0122700001647078226.jpg','111'),
+('15','Pista Green Lehenga','$39.00','https://static3.azafashions.com/tr:w-575.0,dpr-2/uploads/product_gallery/tpaw22g01-44-231-0706828001667324863.jpg','111'),
+('16','Royal Pink Lehenga','$29.00','https://static3.azafashions.com/tr:w-575.0,dpr-2/uploads/product_gallery/nz_g083_17nov22-0828270001668691813.jpg','111')
+
+
+INSERT INTO product (productId,productName, price,imageUrl,category)
+VALUES
+('17','Flower JumpSuit','$39.00','https://static3.azafashions.com/tr:w-575.0,dpr-2/uploads/product_gallery/1693571717086_1.JPG','western'),
+
+('18','Blue JumpSuit','$35.00','https://static3.azafashions.com/tr:w-575.0,dpr-2/uploads/product_gallery/1685111971070_1.jpg','western'),
+
+('19','Black and Silver Combo','$42.00','https://static3.azafashions.com/tr:w-575.0,dpr-2/uploads/product_gallery/1696319806309_1.jpg','western'),
+
+('20','Grey Emerald Dress with coat','$25.00','https://static3.azafashions.com/tr:w-575.0,dpr-2/uploads/product_gallery/1-0664177001682612123.jpg','western'),
+
+('21','Sharara Lehenga','$27.00','https://static3.azafashions.com/tr:w-575.0,dpr-2/uploads/product_gallery/byb-aw22-kgjk117_08_10_2022-0511423001665222766.jpg','western'),
+
+('22','RainBow Hoddie','$17.00','https://static3.azafashions.com/tr:w-575.0,dpr-2/uploads/product_gallery/1-0879856001670430174.JPG','western'),
+
+('23','Salmon Hoddie','$20.00','https://static3.azafashions.com/tr:w-575.0,dpr-2/uploads/product_gallery/1-0974573001670414331.jpg','western'),
+
+('24','Denim shirt with Formal Trousers','$35.00','https://static3.azafashions.com/tr:w-575.0,dpr-2/uploads/product_gallery/1-0078511001677484601.jpg','western'),
+
+('25','Blue Rose JumpSuit','$23.00','https://static3.azafashions.com/tr:w-575.0,dpr-2/uploads/product_gallery/1685550087604_1.jpg','western'),
+
+('26','Henley Shirt with Cargos','$15.00','https://static3.azafashions.com/tr:w-575.0,dpr-2/uploads/product_gallery/nk22c-7-0021586001643810071.jpg','western'),
+
+('27','Pink T-shirt with Plazzo','$39.00','https://static3.azafashions.com/tr:w-575.0,dpr-2/uploads/product_gallery/1697811191776_1.JPG','western'),
+
+('28','Henley Shirt with Cargos','$34.00','https://static3.azafashions.com/tr:w-575.0,dpr-2/uploads/product_gallery/1-0419047001678706246.jpg','western'),
+
+('29','Blue shirt with Jeans','$21.00','https://static3.azafashions.com/tr:w-575.0,dpr-2/uploads/product_gallery/1-0305318001678706260.jpg','western'),
+
+('30','White Hawaiian Shirt with Culottes','$34.00','https://static3.azafashions.com/tr:w-575.0,dpr-2/uploads/product_gallery/1-0838695001679933870.jpg','western'),
+
+('31','Black Joggers','$39.00','https://static3.azafashions.com/tr:w-575.0,dpr-2/uploads/product_gallery/1699364086851_1.JPG','western'),
+
+('32','black T-shirt with Pink Chinos','$29.00','https://static3.azafashions.com/tr:w-575.0,dpr-2/uploads/product_gallery/1699102679400_1.jpg','western')
+

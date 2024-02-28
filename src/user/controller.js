@@ -18,8 +18,8 @@ const create = async (req,res) =>{
         responsehandler.sentInternalServerErrorResponse(res)
     }
 }
+
 const login = async (req,res) =>{
-    console.log("login calling");
     try{
         const result = await connectClient (req,loginUser)
         if(!result.error){
@@ -57,6 +57,7 @@ const updateRegData = async (req, res) => {
             responsehandler.sentErrorResponse(res, result)
         }
     } catch (err) {
+        console.log("err",err);
         responsehandler.sentInternalServerErrorResponse(res)
     }
 }

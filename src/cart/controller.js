@@ -1,10 +1,10 @@
 import { connectClient } from "../utills/utills.js"
-import * as memberModel from './model.js'
+import * as cartModel from './model.js'
 import * as responsehandler from '../utills/responseHandler.js'
 
 const addCart = async (req, res) => {
     try {
-        const result = await connectClient(req, memberModel.addCart)
+        const result = await connectClient(req, cartModel.addCart)
         if (!result.error) {
             responsehandler.sentSuccessResponse(res, result)
         } else {
@@ -17,7 +17,7 @@ const addCart = async (req, res) => {
 
 const decCart = async (req, res) => {
     try {
-        const result = await connectClient(req, memberModel.decCart)
+        const result = await connectClient(req, cartModel.decCart)
         if (!result.error) {
             responsehandler.sentSuccessResponse(res, result)
         } else {
@@ -30,7 +30,7 @@ const decCart = async (req, res) => {
 
 const getCartData = async (req, res) => {
     try {
-        const result = await connectClient(req, memberModel.getCartData)
+        const result = await connectClient(req, cartModel.getCartData)
         if (!result.error) {
             responsehandler.sentSuccessResponse(res, result)
         }
@@ -45,7 +45,7 @@ const getCartData = async (req, res) => {
 
 const deleteCartData=async(req,res)=>{
     try{
-        const result = await connectClient(req, memberModel.deleteCartData)
+        const result = await connectClient(req, cartModel.deleteCartData)
         if (!result.error) {
             responsehandler.sentSuccessResponse(res, result)
         }
@@ -60,7 +60,7 @@ const deleteCartData=async(req,res)=>{
 
 const deleteCartAllData=async(req,res)=>{
     try{
-        const result = await connectClient(req, memberModel.deleteCartAllData)
+        const result = await connectClient(req, cartModel.deleteCartAllData)
         if (!result.error) {
             responsehandler.sentSuccessResponse(res, result)
         }

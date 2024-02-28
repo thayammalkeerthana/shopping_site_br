@@ -1,7 +1,7 @@
 import { generateToken } from "../utills/utills.js";
 
 const createUser = async (req,client) =>{
-    const {userName,password,userId,firstName,email,gender,phoneNumber,imageurl} = req.body
+    const {userName,password,userId,firstName,email,gender,phoneNumber,imageurl,type} = req.body
     try{
         const response = await client.query(`INSERT INTO users 
         (userid,
@@ -11,8 +11,12 @@ const createUser = async (req,client) =>{
          email,
          gender,
          phoneNumber,
-         imageurl) VALUES($1,$2,$3,$4,$5,$6,$7,$8) RETURNING "userid"`,
-         [userId,userName,password,firstName,email,gender,phoneNumber,imageurl])
+         imageurl,
+         type) 
+         VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
+         ON CONFLICT (email, type) DO NOTHING
+         RETURNING userid`,
+         [userId,userName,password,firstName,email,gender,phoneNumber,imageurl,type])
          if(response.rowCount>0){
              return {error: false, data: response.rows , message: "User created successfully"};
          } else {
@@ -25,10 +29,10 @@ const createUser = async (req,client) =>{
  }
  
  const loginUser = async (req,client) =>{
-    const {email,password} = req.body
+    const {email,password,type} = req.body
     try{
-        const response = await client.query(`SELECT * from users WHERE "email"=$1 AND password=$2 `,
-         [email,password])
+        const response = await client.query(`SELECT * from users WHERE "email"=$1  AND password=$2 AND type=$3 `,
+         [email,password,type])
          if(response.rowCount>0){
             let token = generateToken(response)
              return {error: false, data: {authToken:token,userid:response.rows[0].userid} , message: "Login successfully"};
@@ -54,7 +58,7 @@ const createUser = async (req,client) =>{
  }
 
  const updateData = async (req,client) =>{
-    const {userid,username,password,firstname,email,gender,phonenumber,imageurl} = req.body
+    const {userid,username,password,firstname,email,gender,phonenumber,imageurl,type} = req.body
     try{
         const response = await client.query(`UPDATE users SET
         username = $2,
@@ -63,8 +67,9 @@ const createUser = async (req,client) =>{
         email = $5,
         gender = $6,
         phonenumber = $7 ,
-        imageurl=$8 WHERE userid = $1 RETURNING userid`,
-         [userid,username,password,firstname,email,gender,phonenumber,imageurl])
+        imageurl=$8,
+        type=$9 WHERE userid = $1 RETURNING userid`,
+         [userid,username,password,firstname,email,gender,phonenumber,imageurl,type])
          console.log("response.rowCount",response.rowCount);
          if(response.rowCount>0){
             return {error: false, data: response.rows , message: "user updated successfully"};

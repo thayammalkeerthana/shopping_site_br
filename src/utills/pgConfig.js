@@ -1,5 +1,4 @@
 import CONFIG from './config.js';
-import { memberTable } from './utills.js';
 import pg from 'pg'
 const {Pool} = pg
 
@@ -12,14 +11,6 @@ const Client = new Pool ({
 })
 
 //Initialize db when start the application
-const dbInit = async () => {
-    try {
-      await Client.query(memberTable);
-    } catch (error) {
-        console.log(error);
-      throw error.message;
-    }
-  };
 
 const getClientFromPool = () => {
     return Client.connect();
@@ -27,6 +18,5 @@ const getClientFromPool = () => {
 
 export {
     Client,
-    getClientFromPool,
-    dbInit
+    getClientFromPool
 }
