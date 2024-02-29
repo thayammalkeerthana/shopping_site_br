@@ -73,10 +73,26 @@ const deleteCartAllData=async(req,res)=>{
     }
 }
 
+const getCartDetail = async (req, res) => {
+    try {
+        const result = await connectClient(req, cartModel.getCartDetail)
+        if (!result.error) {
+            responsehandler.sentSuccessResponse(res, result)
+        }
+        else {
+            responsehandler.sentErrorResponse(res, result)
+        }
+    }
+    catch (err) {
+        console.log("err", err);
+    }
+}
+
 export {
     addCart,
     getCartData,
     deleteCartData,
     decCart,
-    deleteCartAllData
+    deleteCartAllData,
+    getCartDetail
 }

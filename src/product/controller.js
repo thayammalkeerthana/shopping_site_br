@@ -29,7 +29,21 @@ const addAdminProduct = async (req, res) => {
         responsehandler.sentInternalServerErrorResponse(res)
     }
 }
+
+const getCategoryProduct = async (req, res) => {
+    try {
+        const result = await connectClient(req, productModel.getCategoryProduct)
+        if (!result.error) {
+            responsehandler.sentSuccessResponse(res, result)
+        } else {
+            responsehandler.sentErrorResponse(res, result)
+        }
+    } catch {
+        responsehandler.sentInternalServerErrorResponse(res)
+    }
+}
 export {
     getAllProduct,
-    addAdminProduct
+    addAdminProduct,
+    getCategoryProduct
 }

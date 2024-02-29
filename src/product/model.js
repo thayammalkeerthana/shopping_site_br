@@ -31,8 +31,20 @@
         return {error: true, message: err.toString()};
     }
  }
-
+ const getCategoryProduct = async (req,client) =>{
+    try{
+        const response = await client.query(`SELECT * FROM product WHERE "categoryid" = $1`,[req.params.id])
+        if(response){
+            return {error: false, data: response.rows , message: "product read successfully"};
+        } else {
+           return {error: true, message: "product not read successfully"};
+        }
+    } catch(err){
+        return {error: true, message: err.toString()};
+    }
+ }
 export {
     getAllProduct,
-    addAdminProduct
+    addAdminProduct,
+    getCategoryProduct
  }

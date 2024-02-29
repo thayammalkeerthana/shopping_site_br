@@ -15,8 +15,9 @@ CREATE TABLE cart (
     cartid VARCHAR(50) NOT NULL,
     cartname VARCHAR(50) NOT NULL,
     price VARCHAR(10) NOT NULL,
-    imageUrl VARCHAR(500) NOT NULL,
-    quantity VARCHAR(50) NOT NULL
+    carturl VARCHAR(500) NOT NULL,
+    quantity VARCHAR(50) NOT NULL,
+    userid VARCHAR(50) NOT NULL
 )
 
 CREATE TABLE IF NOT EXISTS cart (
@@ -24,7 +25,8 @@ CREATE TABLE IF NOT EXISTS cart (
     cartname VARCHAR(255) NOT NULL,
     price NUMERIC NOT NULL,
     carturl VARCHAR(500) NOT NULL,
-    quantity INTEGER NOT NULL
+    quantity INTEGER NOT NULL,
+    userid VARCHAR(50) NOT NULL
 );
 
 ALTER TABLE cart ADD CONSTRAINT unique_cartid UNIQUE (cartid);
