@@ -48,6 +48,7 @@ CREATE TABLE Product (
     price VARCHAR(255) NOT NULL,
     imageUrl VARCHAR(255),
     categoryid INT REFERENCES Category(categoryid)
+    categoryname VARCHAR(255) NOT NULL
 );
 
 INSERT INTO Category (categoryid,categoryname,description)
